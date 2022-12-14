@@ -1,0 +1,29 @@
+.todoInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+
+    .formGroup {
+        margin-right: 10px;
+
+        input {
+            padding: 10px 20px;
+            outline: none;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            color: gray;
+        }
+
+    }
+
+    button {
+        cursor: pointer;
+        background-color: #361d32;
+        color: #f1e8e6;
+        font-size: 1.2rem;
+        padding: 10px 15px;
+        border-radius: 10px;
+    }
+}
