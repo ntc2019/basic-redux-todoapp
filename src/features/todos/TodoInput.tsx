@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { addTodo } from './todosSlice'
 import { useDispatch } from 'react-redux'
 import './TodoInput.scss'
+import axios from 'axios'
+import { API_URL } from '../../utils/utils'
 const TodoInput = () => {
     const dispatch = useDispatch();
     const [todo, setTodo] = useState<string>('');
@@ -10,10 +12,12 @@ const TodoInput = () => {
     const onChange = (inputValue: string) => {
         setTodo(inputValue);
     }
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (todo) {
-            dispatch(addTodo(todo));
+            const response = await axios.post(`${API_URL}/todos`, { content: todo, completed: false })
+            const data = response.data;
+            dispatch(addTodo(data));
             setTodo('');
             setIsValid(true);
         } else {

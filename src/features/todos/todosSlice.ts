@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { AnyAction, createSlice, ThunkAction } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../store/store';
-
+import { API_URL } from '../../utils/utils';
+import axios from 'axios'
 const initialState: { data: Todo[] } = {
     data: []
 }
@@ -10,16 +11,20 @@ export const todosSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
+        loadTodos: (state, action: { type: string, payload: Todo[] }) => {
+            state.data = action.payload;
+        }
+        ,
         addTodo: {
             reducer(state, action: { type: string, payload: Todo }) {
 
                 state.data.push(action.payload);
             },
-            prepare(todoContent: string) {
+            prepare({ id, content }: { id: string, content: string, completed: boolean }) {
                 return {
                     payload: {
-                        id: uuidv4(),
-                        content: todoContent,
+                        id,
+                        content: content,
                         completed: false
                     }
                 }
@@ -46,9 +51,16 @@ export const todosSlice = createSlice({
     }
 })
 
+export const fetchTodos = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+    return async function fetchTodosThunk(dispatch, getState) {
+        const response = await axios.get(`${API_URL}/todos`);
+        const data = response.data;
+        dispatch(loadTodos(data));
+    }
+}
 
 
-export const { addTodo, toggleComplete, removeTodo, editTodo } = todosSlice.actions;
+export const { addTodo, toggleComplete, removeTodo, editTodo, loadTodos } = todosSlice.actions;
 
 export default todosSlice.reducer;
 
