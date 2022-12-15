@@ -13,10 +13,11 @@
         display: block;
     }
 
-    .todoItemEdit {
-        background-color: transparent;
+    .todoContent {
         border: none;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        outline: none;
+        background-color: transparent;
+        font-size: 1.2rem;
     }
 
     button {

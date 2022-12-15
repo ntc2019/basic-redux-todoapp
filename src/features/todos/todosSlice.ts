@@ -10,13 +10,20 @@ export const todosSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-        addTodo: (state, action: { type: string, payload: string }) => {
-            const newTodoItem = {
-                id: uuidv4(),
-                content: action.payload,
-                completed: false
+        addTodo: {
+            reducer(state, action: { type: string, payload: Todo }) {
+
+                state.data.push(action.payload);
+            },
+            prepare(todoContent: string) {
+                return {
+                    payload: {
+                        id: uuidv4(),
+                        content: todoContent,
+                        completed: false
+                    }
+                }
             }
-            state.data.push(newTodoItem);
         },
 
         toggleComplete: (state, action: { type: string, payload: string }) => {
@@ -29,6 +36,7 @@ export const todosSlice = createSlice({
         removeTodo: (state, action: { type: string, payload: string }) => {
             state.data = state.data.filter(todo => todo.id !== action.payload);
         },
+
         editTodo: (state, action: { type: string, payload: { id: string, content: string } }) => {
             const item = state.data.find(todo => todo.id === action.payload.id);
             if (item) {

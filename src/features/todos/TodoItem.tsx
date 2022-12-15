@@ -39,11 +39,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
     return (
         <div className='todoItem'>
             <input className='complete' type="checkbox" checked={completed} onChange={onToggleComplete} />
-            {isEditing
-                ? <input className='todoItemEdit' value={editingValue} onChange={(e) => { setEditingValue(e.target.value) }} />
-                : <span className='todoItemContent'>{todo.content}</span>
-            }
-
+            <input className='todoContent' disabled={!isEditing} value={editingValue} onChange={(e) => { setEditingValue(e.target.value) }} />
             <button className='edit' onClick={onEdit}><AiFillEdit />Edit</button>
             <button className='delete' onClick={onDelete}><AiFillDelete />Delete</button>
 
